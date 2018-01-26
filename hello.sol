@@ -13,6 +13,7 @@ contract Person{
     
     function setName(string n) public{
         name = n;
+
     }
 
 }
