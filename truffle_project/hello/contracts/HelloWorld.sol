@@ -2,30 +2,28 @@ pragma solidity ^0.4.18;
 
 contract HelloWorld {
     uint public balance;
-    int public balance2;
-    bool public flag;
+    address public owner;
+    mapping (address => uint) balances;
 
-    mapping(uint => uint) public names;
-    string public ower;
-    
     // constructor
-    function HelloWorld(uint _balance) {
-        balance = 0;
-        balance2 = -1;
-        ower = "Frank";
-        flag = true;
-
+    // runs once upon contract creation
+    function HelloWorld() {
+        owner = msg.sender;
+        balances[owner] = 1000;
     }
 
-    function update_balance(uint _balance) {
-        balance = _balance;
+    function transfer(address _to, uint _value) returns ( bool success) {
+      if (balances[msg.sender] < _value){
+        return false;
+      }
+
+      balances[msg.sender] -= _value;
+      balances[_to] += _value;
+      return true;
     }
 
-    function update_balance2(int _balance) {
-        balance2 = _balance;
+    function getBalance(address _user) constant returns ( uint _balance) {
+       return balances[_user];
     }
 
-    function update_names(uint _id, uint _age) {
-        names[_id] = _age;
-    }
 }
